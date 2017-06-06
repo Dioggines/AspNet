@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BASE.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="BASEStoreContainer">
+    <EntitySet Name="VENDASet" EntityType="BASE.Store.VENDASet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ItemVendaSet" EntityType="BASE.Store.ItemVendaSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="VENDAItemVenda" Association="BASE.Store.VENDAItemVenda">
+      <End Role="VENDA" EntitySet="VENDASet" />
+      <End Role="ItemVenda" EntitySet="ItemVendaSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="VENDASet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descricao" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Valor" Type="decimal" Nullable="false" Precision="19" Scale="6" />
+  </EntityType>
+  <EntityType Name="ItemVendaSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Descricao" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Quantidade" Type="decimal" Nullable="false" Precision="19" Scale="6" />
+    <Property Name="VENDAId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="VENDAItemVenda">
+    <End Role="VENDA" Type="BASE.Store.VENDASet" Multiplicity="1" />
+    <End Role="ItemVenda" Type="BASE.Store.ItemVendaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VENDA">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ItemVenda">
+        <PropertyRef Name="VENDAId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="BASE" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="BASEContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="VENDASet" EntityType="BASE.VENDA" />
+          <EntitySet Name="ItemVendaSet" EntityType="BASE.ItemVenda" />
+          <AssociationSet Name="VENDAItemVenda" Association="BASE.VENDAItemVenda">
+            <End Role="VENDA" EntitySet="VENDASet" />
+            <End Role="ItemVenda" EntitySet="ItemVendaSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="VENDA">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descricao" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="Valor" Type="Decimal" Nullable="false" Precision="19" Scale="6" />
+          <NavigationProperty Name="ItemVenda" Relationship="BASE.VENDAItemVenda" FromRole="VENDA" ToRole="ItemVenda" />
+        </EntityType>
+        <EntityType Name="ItemVenda">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="Descricao" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="Quantidade" Type="Decimal" Nullable="false" Precision="19" Scale="6" />
+          <NavigationProperty Name="VENDA" Relationship="BASE.VENDAItemVenda" FromRole="ItemVenda" ToRole="VENDA" />
+          <Property Name="VENDAId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="VENDAItemVenda">
+          <End Type="BASE.VENDA" Role="VENDA" Multiplicity="1" />
+          <End Type="BASE.ItemVenda" Role="ItemVenda" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VENDA">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ItemVenda">
+              <PropertyRef Name="VENDAId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BASEStoreContainer" CdmEntityContainer="BASEContainer">
+    <EntitySetMapping Name="VENDASet">
+      <EntityTypeMapping TypeName="IsTypeOf(BASE.VENDA)">
+        <MappingFragment StoreEntitySet="VENDASet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+          <ScalarProperty Name="Valor" ColumnName="Valor" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ItemVendaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BASE.ItemVenda)">
+        <MappingFragment StoreEntitySet="ItemVendaSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+          <ScalarProperty Name="Quantidade" ColumnName="Quantidade" />
+          <ScalarProperty Name="VENDAId" ColumnName="VENDAId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
